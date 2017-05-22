@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ZendSkeletonApplication
 =======================
 
@@ -116,3 +117,7 @@ it should look something like below:
     }
 
 Restart the nginx, now you should be ready to go!
+=======
+# CELO
+Class Management for the University of Houston Computer Science Department
+>>>>>>> 1ca654eed4cfcb5c4fcf113e92f9cd753fc0f56f
