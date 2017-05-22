@@ -1,0 +1,14 @@
+import React from 'react';
+
+class FileCourseContentCreation extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return <div>File Creation</div>
+    }
+}
+
+export default FileCourseContentCreation

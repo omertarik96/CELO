@@ -1,0 +1,14 @@
+import React from 'react';
+
+class MagicPointsCourseContentCreation extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return <div>MagicPoints Creation</div>
+    }
+}
+
+export default MagicPointsCourseContentCreation
