@@ -1,123 +1,40 @@
-<<<<<<< HEAD
-ZendSkeletonApplication
+CELO
 =======================
 
 Introduction
 ------------
-This is a simple, skeleton application using the ZF2 MVC layer and module
-systems. This application is meant to be used as a starting place for those
-looking to get their feet wet with ZF2.
+This is a website that was first proposed by Dr.Rizk from the University of Houston Computer Science Department.
+It it is to be a website to help better organize and regulate the computer science departments class content.
+Essentially, a blackboard for the CS Department.
 
-Installation using Composer
+Instructions on Setting Environment
 ---------------------------
 
-The easiest way to create a new ZF2 project is to use [Composer](https://getcomposer.org/). If you don't have it already installed, then please install as per the [documentation](https://getcomposer.org/doc/00-intro.md).
-
-
-Create your new ZF2 project:
-
-    composer create-project -n -sdev zendframework/skeleton-application path/to/install
 
 
 
-### Installation using a tarball with a local Composer
 
-If you don't have composer installed globally then another way to create a new ZF2 project is to download the tarball and install it:
-
-1. Download the [tarball](https://github.com/zendframework/ZendSkeletonApplication/tarball/master), extract it and then install the dependencies with a locally installed Composer:
-
-        cd my/project/dir
-        curl -#L https://github.com/zendframework/ZendSkeletonApplication/tarball/master | tar xz --strip-components=1
-    
-
-2. Download composer into your project directory and install the dependencies:
-
-        curl -s https://getcomposer.org/installer | php
-        php composer.phar install
-
-If you don't have access to curl, then install Composer into your project as per the [documentation](https://getcomposer.org/doc/00-intro.md).
-
-Web server setup
-----------------
-
-### PHP CLI server
-
-The simplest way to get started if you are using PHP 5.4 or above is to start the internal PHP cli-server in the root
-directory:
-
-    php -S 0.0.0.0:8080 -t public/ public/index.php
-
-This will start the cli-server on port 8080, and bind it to all network
-interfaces.
-
-**Note:** The built-in CLI server is *for development only*.
-
-### Vagrant server
-
-This project supports a basic [Vagrant](http://docs.vagrantup.com/v2/getting-started/index.html) configuration with an inline shell provisioner to run the Skeleton Application in a [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
-
-1. Run vagrant up command
-
-    vagrant up
-
-2. Visit [http://localhost:8085](http://localhost:8085) in your browser
-
-Look in [Vagrantfile](Vagrantfile) for configuration details.
-
-### Apache setup
-
-To setup apache, setup a virtual host to point to the public/ directory of the
-project and you should be ready to go! It should look something like below:
-
-    <VirtualHost *:80>
-        ServerName zf2-app.localhost
-        DocumentRoot /path/to/zf2-app/public
-        <Directory /path/to/zf2-app/public>
-            DirectoryIndex index.php
-            AllowOverride All
-            Order allow,deny
-            Allow from all
-            <IfModule mod_authz_core.c>
-            Require all granted
-            </IfModule>
-        </Directory>
-    </VirtualHost>
-
-### Nginx setup
-
-To setup nginx, open your `/path/to/nginx/nginx.conf` and add an
-[include directive](http://nginx.org/en/docs/ngx_core_module.html#include) below
-into `http` block if it does not already exist:
-
-    http {
-        # ...
-        include sites-enabled/*.conf;
-    }
+#### PHP Storm(IDE)
+  1. Get the _Educational License_ account for 1 year by [going here to sign up](https://www.jetbrains.com/shop/eform/students).
+  2. Download [PHP Storm](https://www.jetbrains.com/phpstorm/) and install. 
+  3. Login for the license with the credentials in `1.`
+  4. Start a new project with the instructions here to clone from [This repo](https://www.jetbrains.com/help/phpstorm/2017.1/cloning-a-repository-from-github.html).
 
 
-Create a virtual host configuration file for your project under `/path/to/nginx/sites-enabled/zf2-app.localhost.conf`
-it should look something like below:
 
-    server {
-        listen       80;
-        server_name  zf2-app.localhost;
-        root         /path/to/zf2-app/public;
 
-        location / {
-            index index.php;
-            try_files $uri $uri/ @php;
-        }
+#### Batch Files that made my life easy
+ 1. `start_react` - Will start the Front end continues building (_npm start_) basicly, just without the need of finding the front end folder.
+    Which is in [module/React/src/React/FrontEnd](https://github.com/hecflores/CELO/tree/master/module/React/src/React/FrontEnd).
+ 2. `debug_on`/`debug_off` - Will stop the Wamp server and restart them with the debug on or off. Explanation on the debug part is later on.
+ 3. At this time open up the terminal and type `start start_react`
+  
+#### Setting Up Local Server
+ 1. Download [Wamp](http://www.wampserver.com/en/)
+ 2. Install...
+ 3. Start Wamp...
+ 4. You will know if it is working if [localhost](http://localhost) works.
+ 5. [Modify the host file](https://support.rackspace.com/how-to/modify-your-hosts-file/) by putting the following:
 
-        location @php {
-            # Pass the PHP requests to FastCGI server (php-fpm) on 127.0.0.1:9000
-            fastcgi_pass   127.0.0.1:9000;
-            fastcgi_param  SCRIPT_FILENAME /path/to/zf2-app/public/index.php;
-            include fastcgi_params;
-        }
-    }
-
-Restart the nginx, now you should be ready to go!
-=======
-# CELO
-Class Management for the University of Houston Computer Science Department
->>>>>>> 1ca654eed4cfcb5c4fcf113e92f9cd753fc0f56f
+        localhost uh-celo.local
+ 
