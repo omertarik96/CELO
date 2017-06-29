@@ -74,7 +74,7 @@ Instructions on Setting Environment
 #### Important Code Locations
   - React(Front End Code) : [/module/React/src/React/FrontEnd](https://github.com/hecflores/CELO/tree/master/module/React/src/React/FrontEnd)
   - Main File For API Calls: [/module/Application/src/Application/Controller/RepositoryController.php](https://github.com/hecflores/CELO/blob/master/module/Application/src/Application/Controller/RepositoryController.php)
-  - Entry Point for React(Were the Routes Are): [module/React/src/React/FrontEnd/src/components/Template/Content.jsx](https://github.com/hecflores/CELO/blob/master/module/React/src/React/FrontEnd/src/components/Template/Content.jsx)
+  - Entry Point for React(Were the Routes Are): [/module/React/src/React/FrontEnd/src/components/Template/Content.jsx](https://github.com/hecflores/CELO/blob/master/module/React/src/React/FrontEnd/src/components/Template/Content.jsx)
  
  
  Any questions on functionality please email **_`hectorhpflore72@gmail.com`_**
