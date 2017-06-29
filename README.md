@@ -68,4 +68,13 @@ Instructions on Setting Environment
       
       _Expiration:_ **Some Date in one year**
  6. After Opening the Project click the top right button ![Start Listening for PHP Debugger Connection](https://www.jetbrains.com/help/img/idea/2017.1/start_listening_php_debug_connections.png) (_Start Listening for PHP Debugger Connection_)
- 7. Then just Refresh
+ 7. Then just Refresh and it should stop inside of the code in the IDE.
+ 8. Read more about this [here](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html).
+ 
+#### Important Code Locations
+  - React(Front End Code) : [/module/React/src/React/FrontEnd](https://github.com/hecflores/CELO/tree/master/module/React/src/React/FrontEnd)
+  - Main File For API Calls: [/module/Application/src/Application/Controller/RepositoryController.php](https://github.com/hecflores/CELO/blob/master/module/Application/src/Application/Controller/RepositoryController.php)
+  - Entry Point for React(Were the Routes Are): [module/React/src/React/FrontEnd/src/components/Template/Content.jsx](https://github.com/hecflores/CELO/blob/master/module/React/src/React/FrontEnd/src/components/Template/Content.jsx)
+ 
+ 
+ Any questions on functionality please email **_`hectorhpflore72@gmail.com`_**
