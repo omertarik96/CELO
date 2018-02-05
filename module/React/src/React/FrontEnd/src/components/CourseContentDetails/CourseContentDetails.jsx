@@ -29,7 +29,6 @@ class CourseContentDetails extends React.Component
                     <ValueMatcher match={"topic"} component={TopicCourseContent} />
                     <ValueMatcher match={"course"} component={CourseCourseContent} />
                     <ValueMatcher match={"tab"} component={TabCourseContent} />
-
                </ValueMatches>
     }
 }

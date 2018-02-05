@@ -87,12 +87,14 @@ class CourseContentLoader extends React.Component
     render()
     {
         let $this=this;
-        return (<APIComponent Message="Loading Course Content..." Name="Cource Content" Fetch={this.state.isFetching}
-                            onSubmit={this.fetchedData}
-                            initialOutput={this.state.CourseContent || {}}
-                            APIListener={CourseContentAPI.instance}
-                            Event="get-course-content"
-                            initialInput={{id:this.props.CourseContentID}} >
+        return (<APIComponent Message="Loading Course Content..."
+                              Name="Cource Content"
+                              Fetch={this.state.isFetching}
+                              onSubmit={this.fetchedData}
+                              initialOutput={this.state.CourseContent || {}}
+                              APIListener={CourseContentAPI.instance}
+                              Event="get-course-content"
+                              initialInput={{id:this.props.CourseContentID}} >
                 {function(data,change,send,setData,isLoading){
                     if(!data){
                         return null;

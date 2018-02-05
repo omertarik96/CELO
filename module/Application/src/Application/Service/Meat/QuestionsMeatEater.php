@@ -171,7 +171,6 @@ class QuestionsMeatEater
         }
 
         $QuestionPoolUsers_param=array_intersect_key($parameters,QuestionsPoolUser::getColumns());
-        $QuestionPoolUsers_param["AddedOn"]=date('Y-m-d H:i:s');
         $QuestionPoolUsers_param["Privilege"]=isset($parameters["Privilege"])?
             QuestionsPoolUser::Privilege_ObjToStr($parameters["Privilege"]):"guest";
 

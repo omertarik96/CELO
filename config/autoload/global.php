@@ -14,10 +14,10 @@
 return array(
     'db' => array(
         'driver'         => 'Mysqli',
-        'database'       => 'hecflore_CELO',
-        'hostname'       =>'gator4045.hostgator.com',
+        'database'       => 'celo',
+        'hostname'       =>'localhost',
         'driver_options' => array(
-            MYSQLI_INIT_COMMAND => 'SET NAMES \'UTF8\''
+            //MYSQLI_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ),
         'options' => array(
             //if you're using mysqli driver

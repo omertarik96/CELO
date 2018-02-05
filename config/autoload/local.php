@@ -13,8 +13,8 @@
 
 return array(
     'db' => array(
-        'username' => 'hecflore_me',
-        'password' => 'Armandorocha1-',
+        'username' => 'root',
+        'password' => 'dont4get',
 
     ),
 );

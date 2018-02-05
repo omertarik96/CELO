@@ -149,8 +149,8 @@ class QuestionPoolCreator extends React.Component {
                         <input type="hidden" name="__action__" value={"create-question-pool"}/>
                         {this.context.QuestionsPoolSelector.SelectedQuestionPool.QuestionsPoolID!=null?<input type="hidden" name="ParentQuestionPool" value={this.context.QuestionsPoolSelector.SelectedQuestionPool.QuestionsPoolID}/>:null}
 
-                        <ValidationInput Id="Name" Match={/^[A-Z].{5,}$/} MessageOnError={"Capitalized and minimum of 6 characters"} MessageOnSuccess={"Perfect!"} isRequired={true}/>
-                        <ValidationInput Id="Description" Match={/^.{10,}$/} MessageOnError={"Minimum of 10 characters"} MessageOnSuccess={"Perfect!"} isRequired={true}/>
+                        <ValidationInput Id="Name" Title="Name" Match={/^[A-Z].{5,}$/} MessageOnError={"Capitalized and minimum of 6 characters"} MessageOnSuccess={"Perfect!"} isRequired={true}/>
+                        <ValidationInput Id="Description" Title="Description" Match={/^.{10,}$/} MessageOnError={"Minimum of 10 characters"} MessageOnSuccess={"Perfect!"} isRequired={true}/>
                     </PopupForm>
                 </div> );
     }

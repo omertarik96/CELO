@@ -77186,8 +77186,8 @@
 	                            Title: "Create a New Question Pool" },
 	                        _react2['default'].createElement('input', { type: 'hidden', name: '__action__', value: "create-question-pool" }),
 	                        this.context.QuestionsPoolSelector.SelectedQuestionPool.QuestionsPoolID != null ? _react2['default'].createElement('input', { type: 'hidden', name: 'ParentQuestionPool', value: this.context.QuestionsPoolSelector.SelectedQuestionPool.QuestionsPoolID }) : null,
-	                        _react2['default'].createElement(_ValidationInput2['default'], { Id: 'Name', Match: /^[A-Z].{5,}$/, MessageOnError: "Capitalized and minimum of 6 characters", MessageOnSuccess: "Perfect!", isRequired: true }),
-	                        _react2['default'].createElement(_ValidationInput2['default'], { Id: 'Description', Match: /^.{10,}$/, MessageOnError: "Minimum of 10 characters", MessageOnSuccess: "Perfect!", isRequired: true })
+	                        _react2['default'].createElement(_ValidationInput2['default'], { Id: 'Name', Title: 'Name', Match: /^[A-Z].{5,}$/, MessageOnError: "Capitalized and minimum of 6 characters", MessageOnSuccess: "Perfect!", isRequired: true }),
+	                        _react2['default'].createElement(_ValidationInput2['default'], { Id: 'Description', Title: 'Description', Match: /^.{10,}$/, MessageOnError: "Minimum of 10 characters", MessageOnSuccess: "Perfect!", isRequired: true })
 	                    )
 	                );
 	            }
@@ -79469,7 +79469,9 @@
 	                var $this = this;
 	                return _react2['default'].createElement(
 	                    _APIComponent2['default'],
-	                    { Message: 'Loading Course Content...', Name: 'Cource Content', Fetch: this.state.isFetching,
+	                    { Message: 'Loading Course Content...',
+	                        Name: 'Cource Content',
+	                        Fetch: this.state.isFetching,
 	                        onSubmit: this.fetchedData,
 	                        initialOutput: this.state.CourseContent || {},
 	                        APIListener: _CourseContentAPI2['default'].instance,

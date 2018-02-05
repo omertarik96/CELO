@@ -285,7 +285,6 @@ class CourseContent
             if($currentNode["ParentFolderID"]==null){
                 break;
             }
-
         }
         if($this->getCourseContentNumber()!=0) // If we are the root already...
         {
