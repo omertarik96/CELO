@@ -14,7 +14,7 @@
 return array(
     'db' => array(
         'driver'         => 'Mysqli',
-        'database'       => 'celo',
+        'database'       => 'CELO',
         'hostname'       =>'localhost',
         'driver_options' => array(
             //MYSQLI_INIT_COMMAND => 'SET NAMES \'UTF8\''

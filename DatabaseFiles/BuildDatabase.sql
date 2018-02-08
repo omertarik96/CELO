@@ -1,6 +1,8 @@
+USE CELO;
 
 
 DROP PROCEDURE  RemoveAllTables;
+DELIMITER //
 CREATE PROCEDURE RemoveAllTables()
   BEGIN
     DECLARE done INT DEFAULT FALSE;
@@ -25,7 +27,12 @@ CREATE PROCEDURE RemoveAllTables()
     CLOSE tablesCursor;
 
   END;
+//
+DELIMITER ;
+
 DROP PROCEDURE  RemoveAllViews;
+
+DELIMITER //
 CREATE PROCEDURE RemoveAllViews()
   BEGIN
     DECLARE done INT DEFAULT FALSE;
@@ -50,8 +57,12 @@ CREATE PROCEDURE RemoveAllViews()
     CLOSE viewsCursor;
 
   END;
+//
+DELIMITER ;
 
 DROP PROCEDURE  RemoveAllForeignKeys;
+
+DELIMITER //
 CREATE PROCEDURE RemoveAllForeignKeys()
   BEGIN
     DECLARE done INT DEFAULT FALSE;
@@ -77,7 +88,8 @@ CREATE PROCEDURE RemoveAllForeignKeys()
     CLOSE foreignKeysCursor;
 
   END;
-
+//
+DELIMITER ;
 
 
 
@@ -91,7 +103,7 @@ CALL RemoveAllTables;
 /**************************************************************************/
 /* Users                                                                  */
 /**************************************************************************/
-DROP TABLE Users;
+
 CREATE TABLE Users
 (
   UserID varchar(36),
@@ -111,7 +123,7 @@ CREATE TABLE Users
 /**************************************************************************/
 /* User Sessions                                                          */
 /**************************************************************************/
-DROP TABLE UserSessions;
+
 CREATE TABLE UserSessions
 (
   SessionID varchar(36),
@@ -127,7 +139,7 @@ CREATE TABLE UserSessions
 /* Questions                                                              */
 /* We want to have a question pool that holds these questions             */
 /**************************************************************************/
-DROP TABLE QuestionsPool;
+
 CREATE TABLE QuestionsPool
 (
   QuestionsPoolID BIGINT NOT NULL AUTO_INCREMENT,
@@ -145,7 +157,7 @@ ALTER TABLE QuestionsPool MODIFY COLUMN ParentQuestionPool BIGINT  NULL,
 
 
 
-DROP TABLE QuestionsPoolUsers;
+
 CREATE TABLE QuestionsPoolUsers
 (
   QuestionsPoolID BIGINT,
@@ -156,7 +168,7 @@ CREATE TABLE QuestionsPoolUsers
   FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
-DROP TABLE Questions;
+
 
 CREATE TABLE Questions
 (
@@ -174,7 +186,7 @@ CREATE TABLE Questions
 /**************************************************************************/
 /* Course                                                                */
 /**************************************************************************/
-DROP TABLE Courses;
+
 CREATE TABLE Courses
 (
   CourseUniqueID BIGINT AUTO_INCREMENT NOT NULL ,
@@ -191,85 +203,6 @@ CREATE TABLE Courses
 );
 
 
-/**************************************************************************/
-/* Section                                                                */
-/**************************************************************************/
-DROP TABLE Sections;
-CREATE TABLE Sections
-(
-  SectionID BIGINT UNIQUE AUTO_INCREMENT NOT NULL ,
-  SectionNumber INTEGER,
-  StartDate DATETIME,
-  EndDate DATETIME,
-  Location VARCHAR(200),
-  TextBookInformation VARCHAR(500),
-  CourseUniqueID BIGINT,
-  CreatedBy VARCHAR(36),
-  MainCourseContentID BIGINT,
-  Properties TEXT,
-  PRIMARY KEY(SectionID),
-  FOREIGN KEY(CourseUniqueID) REFERENCES Courses(CourseUniqueID) ON DELETE CASCADE,
-  FOREIGN KEY(MainCourseContentID) REFERENCES CourseContent(ContentID) ON DELETE CASCADE
-
-);
-
-DELETE FROM Courses;
-/**************************************************************************/
-/* Section Users                                                          */
-/**************************************************************************/
-DROP TABLE SectionUsers;
-CREATE TABLE SectionUsers
-(
-  SectionUsersID BIGINT AUTO_INCREMENT,
-  SectionID BIGINT,
-  AddedOn DATETIME,
-  AssignedBy VARCHAR(36),
-  UserID VARCHAR(36),
-  UHID INT(7),
-
-  PRIMARY KEY(SectionUsersID),
-  FOREIGN KEY(SectionID) REFERENCES Sections(SectionID) ON DELETE CASCADE,
-  FOREIGN KEY(UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
-  FOREIGN KEY(AssignedBy) REFERENCES Users(UserID) ON  DELETE CASCADE
-);
-/**************************************************************************/
-/* Invitation Reasons                                                     */
-/**************************************************************************/
-DROP TABLE InvitationReasons;
-CREATE TABLE InvitationReasons
-(
-  ReasonID VARCHAR(10),
-  ReasonString VARCHAR(200),
-  RolesExcepted VARCHAR(200),
-  PRIMARY KEY (ReasonID)
-);
-
-/**************************************************************************/
-/* Invitation                                                             */
-/**************************************************************************/
-DROP TABLE Invitation;
-CREATE TABLE Invitation
-(
-  InvitationID varchar(36),
-  Accepted BOOL,
-  Viewed BOOL,
-  InvitedBy VARCHAR(36),
-  Inviting VARCHAR(36),
-  ReasonID VARCHAR(10),
-
-
-  PRIMARY KEY(InvitationID),
-  FOREIGN KEY(Inviting) REFERENCES Users(UserID) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY(InvitedBy) REFERENCES Users(UserID) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY(ReasonID) REFERENCES InvitationReasons(ReasonID) ON UPDATE CASCADE ON DELETE CASCADE
-);
-DROP TABLE Tags;
-
-
-/**************************************************************************/
-/* Section Folders                                                        */
-/**************************************************************************/
-DROP TABLE CourseContent;
 CREATE TABLE CourseContent
 (
   ContentID BIGINT NOT NULL AUTO_INCREMENT,
@@ -292,8 +225,86 @@ CREATE TABLE CourseContent
   FOREIGN KEY(CreatedBy) REFERENCES Users(UserID) ON  DELETE CASCADE
 
 );
+/**************************************************************************/
+/* Section                                                                */
+/**************************************************************************/
+
+CREATE TABLE Sections
+(
+  SectionID BIGINT UNIQUE AUTO_INCREMENT NOT NULL ,
+  SectionNumber INTEGER,
+  StartDate DATETIME,
+  EndDate DATETIME,
+  Location VARCHAR(200),
+  TextBookInformation VARCHAR(500),
+  CourseUniqueID BIGINT,
+  CreatedBy VARCHAR(36),
+  MainCourseContentID BIGINT,
+  Properties TEXT,
+  PRIMARY KEY(SectionID),
+  FOREIGN KEY(CourseUniqueID) REFERENCES Courses(CourseUniqueID) ON DELETE CASCADE,
+  FOREIGN KEY(MainCourseContentID) REFERENCES CourseContent(ContentID) ON DELETE CASCADE
+
+);
+
+DELETE FROM Courses;
+/**************************************************************************/
+/* Section Users                                                          */
+/**************************************************************************/
+
+CREATE TABLE SectionUsers
+(
+  SectionUsersID BIGINT AUTO_INCREMENT,
+  SectionID BIGINT,
+  AddedOn DATETIME,
+  AssignedBy VARCHAR(36),
+  UserID VARCHAR(36),
+  UHID INT(7),
+
+  PRIMARY KEY(SectionUsersID),
+  FOREIGN KEY(SectionID) REFERENCES Sections(SectionID) ON DELETE CASCADE,
+  FOREIGN KEY(UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+  FOREIGN KEY(AssignedBy) REFERENCES Users(UserID) ON  DELETE CASCADE
+);
+/**************************************************************************/
+/* Invitation Reasons                                                     */
+/**************************************************************************/
+
+CREATE TABLE InvitationReasons
+(
+  ReasonID VARCHAR(10),
+  ReasonString VARCHAR(200),
+  RolesExcepted VARCHAR(200),
+  PRIMARY KEY (ReasonID)
+);
+
+/**************************************************************************/
+/* Invitation                                                             */
+/**************************************************************************/
+
+CREATE TABLE Invitation
+(
+  InvitationID varchar(36),
+  Accepted BOOL,
+  Viewed BOOL,
+  InvitedBy VARCHAR(36),
+  Inviting VARCHAR(36),
+  ReasonID VARCHAR(10),
+
+
+  PRIMARY KEY(InvitationID),
+  FOREIGN KEY(Inviting) REFERENCES Users(UserID) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY(InvitedBy) REFERENCES Users(UserID) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY(ReasonID) REFERENCES InvitationReasons(ReasonID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+
+/**************************************************************************/
+/* Section Folders                                                        */
+/**************************************************************************/
+
 SET FOREIGN_KEY_CHECKS=1;
-ALTER TABLE CourseContent DROP FOREIGN KEY fk_ParentFolderID;
 
 ALTER TABLE CourseContent
   ADD CONSTRAINT fk_ParentFolderID
@@ -304,7 +315,7 @@ FOREIGN KEY(SectionID) REFERENCES Sections(SectionID) ON DELETE CASCADE;
 /***************************************************************************/
 /* Files                                                                   */
 /***************************************************************************/
-DROP TABLE Files;
+
 CREATE TABLE Files(
   FileID varchar(36),
   Path VARCHAR(200),
@@ -316,7 +327,7 @@ CREATE TABLE Files(
 );
 
 
-DROP TABLE CourseContentTemplates;
+
 CREATE TABLE CourseContentTemplates
 (
   TemplateID BIGINT NOT NULL AUTO_INCREMENT,
@@ -333,14 +344,14 @@ CREATE TABLE CourseContentTemplates
 
 
 );
-DROP PROCEDURE SaveAsTemplate;
+
 
 
 /***************************************************************************/
 /* Answerable Question Group                                               */
 /* Holds the Basic Connections Between a collection of questions           */
 /***************************************************************************/
-DROP TABLE AnswerableQuestionsGroups;
+
 CREATE TABLE AnswerableQuestionsGroups(
   AnswerableGroupID BIGINT NOT NULL AUTO_INCREMENT ,
   CreatedOn DATETIME,
@@ -357,7 +368,7 @@ CREATE TABLE AnswerableQuestionsGroups(
   /*, FOREIGN KEY(TypeID) REFERENCES AnswerableQuestionsGroupTypes(GroupID) ON UPDATE CASCADE ON DELETE CASCADE */
 );
 
-DROP TABLE AnsweringQuestionsGroup;
+
 CREATE TABLE AnsweringQuestionsGroup(
   AnsweringGroupID BIGINT NOT NULL AUTO_INCREMENT,
   AnswerableGroupID BIGINT,
@@ -376,7 +387,7 @@ CREATE TABLE AnsweringQuestionsGroup(
 /* Falls Under the Answerable Questions Group. Which holds all the info for*/
 /* a question that has the ability to be answered.                         */
 /***************************************************************************/
-DROP TABLE AnswerableQuestions;
+
 CREATE TABLE AnswerableQuestions(
   AnswerableID BIGINT AUTO_INCREMENT,
   AnswerableGroupID BIGINT,
@@ -394,7 +405,7 @@ CREATE TABLE AnswerableQuestions(
 /* Fold Under the Answerable Question. Which holds a particular response to*/
 /* a answerable question                                                   */
 /***************************************************************************/
-DROP TABLE AnsweredQuestions;
+
 CREATE TABLE AnsweredQuestions(
   AnswerableID BIGINT AUTO_INCREMENT ,
   AnsweredHTML TEXT,               /* Once the question is answered. The HTML that is showing will be saved */
@@ -406,7 +417,7 @@ CREATE TABLE AnsweredQuestions(
 
 );
 
-DROP TRIGGER AnswerableQuestionsNumberTracker;
+
 DELIMITER //
 CREATE TRIGGER AnswerableQuestionsNumberTracker
 BEFORE INSERT ON AnswerableQuestions
@@ -420,7 +431,7 @@ FOR EACH ROW
 
   END//
 DELIMITER ;
-DROP TRIGGER AnsweredQuestionsNumberTracker;
+
 DELIMITER //
 CREATE TRIGGER AnsweredQuestionsNumberTracker
 BEFORE INSERT ON AnsweredQuestions
@@ -439,7 +450,7 @@ DELIMITER ;
 /* Course Content Breadcrumb Improving. We will have a trigger to keep     */
 /* of children                                                             */
 /***************************************************************************/
-DROP TABLE CourseContentChildren;
+
 CREATE TABLE CourseContentChildren(
   ContentID BIGINT,
   ChildContentID BIGINT,
@@ -451,7 +462,7 @@ CREATE TABLE CourseContentChildren(
 /***************************************************************************/
 /* Question Types. We don't want to delete this all the time. Very important*/
 /***************************************************************************/
-# DROP TABLE QuestionTypes
+# 
 # CREATE TABLE QuestionTypes
 # (
 #   QuestionTypeID BIGINT NOT NULL AUTO_INCREMENT,
@@ -466,7 +477,7 @@ CREATE TABLE CourseContentChildren(
 /***************************************************************************/
 /* Questions. We don't want to delete this all the time. Very important    */
 /***************************************************************************/
-# DROP TABLE Questions;
+# 
 # CREATE TABLE Questions
 # (
 #   QuestionID BIGINT NOT NULL AUTO_INCREMENT,
@@ -485,7 +496,7 @@ CREATE TABLE CourseContentChildren(
 /***************************************************************************/
 /* Assessments                                                             */
 /***************************************************************************/
-DROP TABLE Assessments;
+
 # CREATE TABLE Assessments(
 #
 #   AssessmentID BIGINT NOT NULL AUTO_INCREMENT,
@@ -510,7 +521,7 @@ DROP TABLE Assessments;
 /***************************************************************************/
 /* Assessment Questions                                                    */
 /***************************************************************************/
-DROP TABLE AssessmentQuestions;
+
 # CREATE TABLE AssessmentQuestions(
 #   AssessmentQuestionID BIGINT NOT NULL AUTO_INCREMENT ,
 #   AssessmentID BIGINT NOT NULL ,
@@ -527,7 +538,7 @@ DROP TABLE AssessmentQuestions;
 /***************************************************************************/
 /* Running Assessments. The User Instance of an Assessment                 */
 /***************************************************************************/
-DROP TABLE RunningAssessments;
+
 # CREATE TABLE RunningAssessments(
 #   AnsweredID BIGINT NOT NULL AUTO_INCREMENT,
 #   AssessmentID BIGINT NOT NULL,
@@ -554,7 +565,7 @@ DROP TABLE RunningAssessments;
 
 
 /*
-DROP TABLE AnswerableQuestionsGroupTypes;
+
 CREATE TABLE AnswerableQuestionsGroupTypes(
   GroupID BIGINT NOT NULL AUTO_INCREMENT ,
   Name VARCHAR(300) NOT NULL,
@@ -586,7 +597,7 @@ DELIMITER //
 /* A way to keep track of who is the child and who is the parent. To make  */
 /* sql selects easier and faster                                           */
 /***************************************************************************/
-DROP TRIGGER CourseContentNumberTracker;
+
 DELIMITER //
 CREATE TRIGGER CourseContentNumberTracker
   BEFORE INSERT ON CourseContent
@@ -640,7 +651,27 @@ DELIMITER ;
 #   END//
 #
 #
-
+CREATE VIEW `UsersAnswersTemp` AS
+  SELECT
+    `S8`.`AnswerableID` AS `AnswerableID`,
+    `S9`.`AnsweredHTML` AS `AnsweredHTML`,
+    `S3`.`StartedBy`    AS `AnsweredBy`,
+    `S9`.`Attempts`     AS `Attempts`,
+    `S9`.`ChosenAnswer` AS `ChosenAnswer`,
+    `S10`.`UserID`      AS `UserID`,
+    `S10`.`FirstName`   AS `FirstName`,
+    `S10`.`LastName`    AS `LastName`,
+    `S10`.`Email`       AS `Email`,
+    `S10`.`PhoneNumber` AS `PhoneNumber`,
+    `S10`.`UserName`    AS `UserName`,
+    `S10`.`Password`    AS `Password`,
+    `S10`.`Role`        AS `Role`,
+    `S10`.`UHID`        AS `UHID`
+  FROM (((`AnswerableQuestions` `S8` LEFT JOIN `AnsweredQuestions` `S9`
+      ON ((`S9`.`AnswerableID` = `S8`.`AnswerableID`))) JOIN `AnsweringQuestionsGroup` `S3`
+      ON (((`S3`.`AnswerableGroupID` = `S8`.`AnswerableGroupID`) AND
+           (`S3`.`AnsweringGroupID` = `S9`.`AnsweringGroupID`)))) LEFT JOIN `Users` `S10`
+      ON ((`S3`.`StartedBy` = `S10`.`UserID`)));
 /***************************************************************************/
 /***************************************************************************/
 /***************************************************************************/
@@ -929,88 +960,6 @@ CREATE VIEW `QuestionsReport` AS
     `S3`.`Email`           AS `Email`,
     `S3`.`PhoneNumber`     AS `PhoneNumber`
   FROM (`Questions` `S1` LEFT JOIN `Users` `S3` ON ((`S3`.`UserID` = `S1`.`CreatedBy`)));
-CREATE VIEW `QuestionTypesReport` AS
-  SELECT
-    `S1`.`QuestionTypeID` AS `QuestionTypeID`,
-    `S1`.`SrcDirectory`   AS `SrcDirectory`,
-    `S1`.`Name`           AS `Name`,
-    `S1`.`CreatedBy`      AS `CreatedBy`,
-    `S3`.`UserID`         AS `UserID`,
-    `S3`.`FirstName`      AS `FirstName`,
-    `S3`.`LastName`       AS `LastName`,
-    `S3`.`Email`          AS `Email`,
-    `S3`.`PhoneNumber`    AS `PhoneNumber`,
-    `S3`.`UserName`       AS `UserName`,
-    `S3`.`Password`       AS `Password`,
-    `S3`.`Role`           AS `Role`,
-    `S3`.`UHID`           AS `UHID`
-  FROM (`QuestionTypes` `S1` LEFT JOIN `Users` `S3`
-      ON ((`S3`.`UserID` = `S1`.`CreatedBy`)));
-CREATE VIEW `RunningAssessmentsReport` AS
-  SELECT
-    `S1`.`AnsweredID`                                                                                              AS `AnsweredID`,
-    `S1`.`AssessmentID`                                                                                            AS `AssessmentID`,
-    `S1`.`StartTime`                                                                                               AS `StartTime`,
-    `S1`.`EndTime`                                                                                                 AS `EndTime`,
-    `S1`.`TotalPoints`                                                                                             AS `TotalPoints`,
-    sum(
-        `S4`.`PointsEarned`)                                                                                       AS `EarnedPoints`,
-    count(
-        `S6`.`AnswerableID`)                                                                                       AS `Answered`,
-    count(
-        `S4`.`AnswerableID`)                                                                                       AS `TotalQuestions`,
-    ((sum(`S4`.`PointsEarned`) / `S1`.`TotalPoints`) *
-     100.0)                                                                                                        AS `Grade`,
-    (((sum(`S4`.`PointsEarned`) / `S1`.`TotalPoints`) / (sum((CASE WHEN (`S4`.`Attempts` = 0)
-      THEN 1
-                                                              ELSE 0 END)) / count(`S4`.`AnswerableID`))) *
-     100.0)                                                                                                        AS `RelativeGrade`,
-    ((sum((CASE WHEN (`S4`.`Attempts` = 0)
-      THEN 1
-           ELSE 0 END)) / count(`S6`.`AnswerableID`)) *
-     100.0)                                                                                                        AS `Finished`,
-    `S1`.`AnsweringBy`                                                                                             AS `AnsweringBy`,
-    `S1`.`GradedBy`                                                                                                AS `GradedBy`,
-    `S1`.`AnsweringGroupID`                                                                                        AS `AnsweringGroupID`,
-    `S2`.`Name`                                                                                                    AS `Name`,
-    `S2`.`URL`                                                                                                     AS `URL`,
-    `S2`.`Description`                                                                                             AS `Description`,
-    `S2`.`Type`                                                                                                    AS `Type`,
-    `S2`.`Properties`                                                                                              AS `Properties`,
-    `S2`.`AssociatedCourseContentID`                                                                               AS `AssociatedCourseContentID`,
-    `S2`.`Timelimit`                                                                                               AS `Timelimit`
-  FROM (((((`RunningAssessments` `S1`
-    JOIN `Assessments` `S2` ON ((`S2`.`AssessmentID` = `S1`.`AssessmentID`))) JOIN
-    `AnsweringQuestionsGroup` `S3` ON ((`S3`.`AnsweringGroupID` = `S1`.`AnsweringGroupID`))) LEFT JOIN
-    `AnsweredQuestionsReport` `S4` ON (((`S4`.`AnswerableGroupID` = `S3`.`AnswerableGroupID`) AND
-                                                        (`S1`.`AnsweringBy` = `S4`.`AnsweredBy`)))) LEFT JOIN
-    `AnswerableQuestions` `S5` ON (((`S5`.`AnswerableGroupID` = `S3`.`AnswerableGroupID`) AND
-                                                    (`S4`.`AnswerableID` = `S5`.`AnswerableID`)))) LEFT JOIN
-    `AnsweredQuestions` `S6` ON ((`S6`.`AnsweringGroupID` = `S1`.`AnsweringGroupID`)))
-  GROUP BY `S1`.`AnsweredID`, `S1`.`AssessmentID`, `S1`.`StartTime`, `S1`.`EndTime`, `S1`.`TotalPoints`,
-    `S1`.`EarnedPoints`, `S1`.`AnsweringBy`, `S1`.`GradedBy`, `S1`.`AnsweringGroupID`, `S2`.`Name`, `S2`.`URL`,
-    `S2`.`Description`, `S2`.`Type`, `S2`.`Properties`, `S2`.`AssociatedCourseContentID`, `S2`.`Timelimit`;
-CREATE VIEW `UsersAnswersTemp` AS
-  SELECT
-    `S8`.`AnswerableID` AS `AnswerableID`,
-    `S9`.`AnsweredHTML` AS `AnsweredHTML`,
-    `S3`.`StartedBy`    AS `AnsweredBy`,
-    `S9`.`Attempts`     AS `Attempts`,
-    `S9`.`ChosenAnswer` AS `ChosenAnswer`,
-    `S10`.`UserID`      AS `UserID`,
-    `S10`.`FirstName`   AS `FirstName`,
-    `S10`.`LastName`    AS `LastName`,
-    `S10`.`Email`       AS `Email`,
-    `S10`.`PhoneNumber` AS `PhoneNumber`,
-    `S10`.`UserName`    AS `UserName`,
-    `S10`.`Password`    AS `Password`,
-    `S10`.`Role`        AS `Role`,
-    `S10`.`UHID`        AS `UHID`
-  FROM (((`AnswerableQuestions` `S8` LEFT JOIN `AnsweredQuestions` `S9`
-      ON ((`S9`.`AnswerableID` = `S8`.`AnswerableID`))) JOIN `AnsweringQuestionsGroup` `S3`
-      ON (((`S3`.`AnswerableGroupID` = `S8`.`AnswerableGroupID`) AND
-           (`S3`.`AnsweringGroupID` = `S9`.`AnsweringGroupID`)))) LEFT JOIN `Users` `S10`
-      ON ((`S3`.`StartedBy` = `S10`.`UserID`)));
 
 
 

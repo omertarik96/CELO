@@ -14,7 +14,7 @@
 return array(
     'db' => array(
         'username' => 'root',
-        'password' => 'dont4get',
+        'password' => 'P@55w0rd',
 
     ),
 );
